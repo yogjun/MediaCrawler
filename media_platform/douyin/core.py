@@ -1,6 +1,7 @@
 import asyncio
 import os
 import random
+import time
 from asyncio import Task
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -74,6 +75,7 @@ class DouYinCrawler(AbstractCrawler):
             utils.logger.info("[DouYinCrawler.start] Douyin Crawler finished ...")
 
     async def search(self) -> None:
+        inc = 1;
         utils.logger.info("[DouYinCrawler.search] Begin search douyin keywords")
         dy_limit_count = 10  # douyin limit page fixed value
         if config.CRAWLER_MAX_NOTES_COUNT < dy_limit_count:
@@ -86,6 +88,12 @@ class DouYinCrawler(AbstractCrawler):
             page = 0
             dy_search_id = ""
             while (page - start_page + 1) * dy_limit_count <= config.CRAWLER_MAX_NOTES_COUNT:
+                # todo 测试睡眠效果
+                time.sleep(1)
+                inc = inc+1
+                if(inc >= 50):
+                  inc = 0
+                  time.sleep(60)
                 if page < start_page:
                     utils.logger.info(f"[DouYinCrawler.search] Skip {page}")
                     page += 1
